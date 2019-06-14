@@ -15,6 +15,12 @@ App.get('/status', (req, res) => {
     })
 });
 
+App.post('/register', (req, res) => {
+    res.send({
+        message: `Hello ${req.body.email}! HTTP REQUEST SUCCESS !!`
+    })
+});
+
 App.listen(process.env.PORT || 8081, () => {
     console.log('Express server started on port: 8081')
 });
