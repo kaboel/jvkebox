@@ -9,7 +9,7 @@ export default new Router({
         {
             path: '/register',
             name: 'register',
-            component: () => import('./views/Register'),
+            component: () => import('./components/Register'),
             meta: {
                 title: "Jvkebox | User Registration"
             }
