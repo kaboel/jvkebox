@@ -11,7 +11,15 @@ export default new Router({
             name: 'register',
             component: () => import('./components/Register'),
             meta: {
-                title: "Jvkebox | User Registration"
+                title: "Jvkebox | Sign up for a new account."
+            }
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('./components/Login'),
+            maeta: {
+                title: "Jvkebox | Sign In"
             }
         }
     ]
