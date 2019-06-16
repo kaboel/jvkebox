@@ -1,4 +1,5 @@
 module.exports = {
+    name: 'Jvkebox',
     port: '8081',
     db: {
         database: 'jvkebox',
@@ -9,6 +10,8 @@ module.exports = {
             host: 'localhost',
             storage: './jvkebox.sqlite'
         }
+    },
+    auth: {
+        jwtSecret: 'jvkeboxecr3t'
     }
-}
-
+ }

@@ -6,4 +6,9 @@ module.exports = (App) => {
         AuthValidator.register,
         AuthController.register
     );
+
+    App.post('/login',
+        // AuthValidator.register,
+        AuthController.login
+    );
 }

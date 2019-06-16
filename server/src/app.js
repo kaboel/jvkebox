@@ -13,8 +13,14 @@ App.use(cors());
 
 require('./routes')(App);
 
-sequelize.sync().then(() => {
+sequelize.sync({
+    // force: true
+}).then(() => {
     App.listen(config.port, () => {
-        console.log(`Express server started on port: ${config.port} ...`)
+        console.log(
+            `\n${config.name} server started on port: ${config.port} ...`
+        )
     });
+}).catch(err => {
+    console.log(err.message)
 });
