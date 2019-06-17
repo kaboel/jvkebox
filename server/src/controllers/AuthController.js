@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
 
-function jwtUserToken(user) {
+function generateToken(user) {
     const EXPIRED = 60 * 60 * 24 * 7;
     return jwt.sign(user, config.auth.jwtSecret, {
         expiresIn: EXPIRED
@@ -21,7 +21,11 @@ module.exports = {
     async register(req, res) {
         await User.create(req.body)
             .then(user => {
-                res.send(user.toJSON())
+                const userJSON = user.toJSON();
+                res.send({
+                    user: userJSON,
+                    token: generateToken(userJSON)
+                })
             })
             .catch(err => {
                 res.status(400).send({
@@ -52,7 +56,7 @@ module.exports = {
                 const userJSON = user.toJSON();
                 res.send({
                     user: userJSON,
-                    token: jwtUserToken(userJSON)
+                    token: generateToken(userJSON)
                 })
             } else {
                 return res.status(403).send({

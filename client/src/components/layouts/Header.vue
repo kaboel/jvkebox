@@ -7,6 +7,12 @@
                 </a>
             </v-toolbar-title>
 
+            <v-toolbar-items class="ml-4">
+                <v-btn flat dark to="/songs">
+                    Browse
+                </v-btn>
+            </v-toolbar-items>
+
             <v-spacer></v-spacer>
 
             <v-toolbar-items v-show="!this.$store.getters.getStatus">

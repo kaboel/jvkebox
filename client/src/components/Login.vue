@@ -41,8 +41,7 @@
             </v-form>
             <v-alert :value="alert.value"
                      :type="alert.type"
-                     transition="scale-transition"
-                     dismissible>
+                     transition="scale-transition">
                 {{ this.alert.msg }}
             </v-alert>
         </v-flex>
@@ -86,7 +85,10 @@
                     value: true,
                     type: type,
                     msg: msg
-                }
+                };
+                setTimeout(() => {
+                    this.alert.value = false;
+                }, 5000)
             },
             async login() {
                 if(this.valid) {
@@ -99,7 +101,7 @@
 
                         store.dispatch('Login', response.data)
                             .then(() => {
-                                this.alertOpen('success', `Welcome <b>${store.getters.getUser.name}</b>.`);
+                                this.alertOpen('success', `Welcome ${store.getters.getUser.name}.`);
                                 this.formReset();
                             }).catch(err => {
                                 this.alertOpen('error', err.response.data.error);

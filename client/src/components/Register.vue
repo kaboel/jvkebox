@@ -16,8 +16,6 @@
                             :rules='[rules.required, rules.min, rules.max]'
                             label="Name"
                             :counter="32"
-                            required
-                            clearable
                     ></v-text-field>
 
                     <v-text-field
@@ -27,8 +25,6 @@
                             v-model="email"
                             :rules='[rules.required, rules.email]'
                             label="Email Address"
-                            required
-                            clearable
                     ></v-text-field>
 
                     <v-text-field
@@ -41,7 +37,6 @@
                             label="Password"
                             :counter="32"
                             @click:append="showPassA = !showPassA"
-                            clearable
                     ></v-text-field>
 
                     <v-divider/>
@@ -56,7 +51,6 @@
                             label="Password Confirmation"
                             :counter="32"
                             @click:append="showPassB = !showPassB"
-                            clearable
                     ></v-text-field>
 
                     <div class="pb-5 pt-3">
@@ -75,8 +69,7 @@
             </v-form>
             <v-alert :value="alert.value"
                      :type="alert.type"
-                     transition="scale-transition"
-                     dismissible>
+                     transition="scale-transition">
                 {{ this.alert.msg }}
             </v-alert>
         </v-flex>
@@ -137,23 +130,33 @@
                     value: true,
                     type: type,
                     msg: msg
-                }
+                };
+                setTimeout(() => {
+                    this.alert.value = false;
+                }, 5000)
             },
             async register() {
                 if(this.valid) {
-                    await AuthService.register({
-                        name: this.name,
-                        email: this.email,
-                        password: this.password
-                    })
-                        .then(() => {
-                            this.alertOpen('success', 'Registration Successful');
-                            this.formReset()
-                        })
-                        .catch(err => {
-                            this.alertOpen('warning', err.response.data.error);
-                            this.formReset()
+                    try {
+                        const store = this.$store;
+                        const response = await AuthService.register({
+                            name: this.name,
+                            email: this.email,
+                            password: this.password
                         });
+
+                        store.dispatch('Login', response.data)
+                            .then(() => {
+                                this.alertOpen('success', `Registration Successful. Welcome ${store.getters.getUser.name}.`);
+                                this.formReset()
+                            }).catch(err => {
+                                this.alertOpen('error', err.response.data.error);
+                                this.formReset()
+                            })
+                    } catch (err) {
+                        this.alertOpen('error', err.response.data.error);
+                        this.formReset()
+                    }
                 }
             }
         }
