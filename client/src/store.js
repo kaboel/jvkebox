@@ -24,7 +24,7 @@ export default new Vuex.Store({
         Login(state, data) {
             state.token = data.token;
             state.user = data.user;
-            state.isLoggedIn = state.token !== null
+            state.isLoggedIn = state.token !== null;
         }
     },
     actions: {

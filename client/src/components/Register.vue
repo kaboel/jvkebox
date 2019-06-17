@@ -142,15 +142,16 @@
             async register() {
                 if(this.valid) {
                     await AuthService.register({
+                        name: this.name,
                         email: this.email,
                         password: this.password
                     })
                         .then(() => {
-                            this.alertOpen('success', 'Registration Successful')
+                            this.alertOpen('success', 'Registration Successful');
                             this.formReset()
                         })
                         .catch(err => {
-                            this.alertOpen('warning', err.response.data.error)
+                            this.alertOpen('warning', err.response.data.error);
                             this.formReset()
                         });
                 }

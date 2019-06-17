@@ -92,18 +92,21 @@
                 if(this.valid) {
                     try {
                         const store = this.$store;
-
                         const response = await AuthService.login({
                             email: this.email,
                             password: this.password
                         });
 
-                        store.dispatch('Login', response.data);
-
-                        this.alertOpen('success', `${store.getters.getUser.email} is now logged in.`);
-                        this.formReset();
-                    } catch (e) {
-                        this.alertOpen('warning', e.response.data.error);
+                        store.dispatch('Login', response.data)
+                            .then(() => {
+                                this.alertOpen('success', `Welcome <b>${store.getters.getUser.name}</b>.`);
+                                this.formReset();
+                            }).catch(err => {
+                                this.alertOpen('error', err.response.data.error);
+                                this.formReset();
+                            });
+                    } catch (err) {
+                        this.alertOpen('warning', err.response.data.error);
                         this.formReset();
                     }
                 }
