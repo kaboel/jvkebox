@@ -1,7 +1,7 @@
 <template>
     <div id="login">
         <v-flex md4 offset-md4>
-            <v-form class="white elevation-2" ref="form" v-model="valid" >
+            <v-form class="white elevation-2" ref="form" v-model="valid">
                 <v-toolbar flat dense class="deep-purple" dark>
                     <v-toolbar-title style="margin: 0 auto">
                         Login
@@ -16,8 +16,6 @@
                             v-model="email"
                             :rules='[rules.required, rules.email]'
                             label="Email Address"
-                            required
-                            clearable
                     ></v-text-field>
 
                     <v-text-field
@@ -30,7 +28,6 @@
                             label="Password"
                             :counter="32"
                             @click:append="showPass = !showPass"
-                            clearable
                     ></v-text-field>
 
                     <div class="pb-4 pt-2">
@@ -76,10 +73,14 @@
                     value: false,
                     type: null,
                     msg: null
-                },
+                }
             }
         },
         methods: {
+            formReset() {
+                this.$refs.form.reset();
+                this.$refs.form.resetValidation();
+            },
             alertOpen(type, msg) {
                 this.alert = {
                     value: true,
@@ -89,17 +90,22 @@
             },
             async login() {
                 if(this.valid) {
-                    await AuthService.login({
-                        email: this.email,
-                        password: this.password
-                    })
-                        .then(() => {
-                            return true;
-                        })
-                        .catch(err => {
-                            this.alertOpen('warning', err.response.data.error);
-                            this.formReset()
+                    try {
+                        const store = this.$store;
+
+                        const response = await AuthService.login({
+                            email: this.email,
+                            password: this.password
                         });
+
+                        store.dispatch('Login', response.data);
+
+                        this.alertOpen('success', `${store.getters.getUser.email} is now logged in.`);
+                        this.formReset();
+                    } catch (e) {
+                        this.alertOpen('warning', e.response.data.error);
+                        this.formReset();
+                    }
                 }
             }
         }

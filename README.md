@@ -20,4 +20,5 @@ inside [/server](https://github.com/kaboel/jvkebox/tree/master/server), run:
 npm start
 ```
 ### Customize configuration
-By default, the server runs on port: 8081, you can customize this by modifying the <b>config.js</b> file inside [src/config](https://github.com/kaboel/jvkebox/tree/master/server/src/config).
+By default, the server runs on port: 8081, you can customize this by modifying the <b>config.js</b> file inside [src/config](https://github.com/kaboel/jvkebox/tree/master/server/src/config) 
+and modify the baseURL entry on the client side [API](https://github.com/kaboel/jvkebox/blob/master/client/src/services/Api.js).

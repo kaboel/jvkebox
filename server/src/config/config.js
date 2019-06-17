@@ -3,8 +3,8 @@ module.exports = {
     port: '8081',
     db: {
         database: 'jvkebox',
-        user: 'kaboel',
-        password: 'Ff456217',
+        user: 'jvkebox',
+        password: 'jvkebox',
         options: {
             dialect: 'sqlite',
             host: 'localhost',
@@ -12,6 +12,6 @@ module.exports = {
         }
     },
     auth: {
-        jwtSecret: 'jvkeboxecr3t'
+        jwtSecret: 'jvkeboxecr3t!!!'
     }
  }
