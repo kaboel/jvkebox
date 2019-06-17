@@ -19,6 +19,5 @@ inside [/server](https://github.com/kaboel/jvkebox/tree/master/server), run:
 ```
 npm start
 ```
-by default, the server runs on port: 8081, you can customize this by modifying the <b>config.js</b> file inside [src/config](https://github.com/kaboel/jvkebox/tree/master/server/src/config).
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+By default, the server runs on port: 8081, you can customize this by modifying the <b>config.js</b> file inside [src/config](https://github.com/kaboel/jvkebox/tree/master/server/src/config).
