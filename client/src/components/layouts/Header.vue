@@ -8,7 +8,7 @@
 
         <v-spacer></v-spacer>
 
-        <v-toolbar-items>
+        <v-toolbar-items v-show="!this.$store.getters.getStatus">
             <v-btn flat dark to="/login">
                 Login
             </v-btn>

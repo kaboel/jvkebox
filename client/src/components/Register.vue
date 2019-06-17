@@ -129,8 +129,8 @@
         },
         methods: {
             formReset() {
-                this.$refs.form.reset()
-                this.$refs.form.resetValidation()
+                this.$refs.form.reset();
+                this.$refs.form.resetValidation();
             },
             alertOpen(type, msg) {
                 this.alert = {
