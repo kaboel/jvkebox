@@ -18,7 +18,7 @@ export default new Router({
             path: '/login',
             name: 'login',
             component: () => import('./components/Login'),
-            maeta: {
+            meta: {
                 title: "Jvkebox | Sign In"
             }
         }
