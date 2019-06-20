@@ -1,86 +1,81 @@
 <template>
-    <div id="register">
-        <v-flex md6 offset-md3>
-            <v-form class="white elevation-2" ref="form" v-model="valid" >
-                <v-toolbar flat dense class="deep-purple" dark>
-                    <v-toolbar-title style="margin: 0 auto">
-                        Sign Up
-                    </v-toolbar-title>
-                </v-toolbar>
+    <v-flex md6 offset-md3 id="register">
 
-                <form class="pt-4">
-                    <v-text-field
-                            color="purple darken-2"
-                            class="mb-2 px-5"
-                            v-model="name"
-                            :rules='[rules.required, rules.min, rules.max]'
-                            label="Name"
-                            :counter="32"
-                    ></v-text-field>
+        <Panel title="Register">
+            <v-form class="pt-4" ref="form" v-model="valid">
+                <v-text-field
+                        color="purple darken-2"
+                        class="mb-2 px-5"
+                        v-model="name"
+                        :rules='[rules.required, rules.min, rules.max]'
+                        label="Name"
+                        :counter="32"
+                ></v-text-field>
 
-                    <v-text-field
-                            color="purple darken-2"
-                            class="mb-2 px-5"
-                            type="email"
-                            v-model="email"
-                            :rules='[rules.required, rules.email]'
-                            label="Email Address"
-                    ></v-text-field>
+                <v-text-field
+                        color="purple darken-2"
+                        class="mb-2 px-5"
+                        type="email"
+                        v-model="email"
+                        :rules='[rules.required, rules.email]'
+                        label="Email Address"
+                ></v-text-field>
 
-                    <v-text-field
-                            color="purple darken-2"
-                            class="mb-4 px-5"
-                            v-model="password"
-                            :append-icon="showPassA ? 'visibility' : 'visibility_off'"
-                            :rules="[rules.required, rules.min, rules.max]"
-                            :type="showPassA ? 'text' : 'password'"
-                            label="Password"
-                            :counter="32"
-                            @click:append="showPassA = !showPassA"
-                    ></v-text-field>
+                <v-text-field
+                        color="purple darken-2"
+                        class="mb-4 px-5"
+                        v-model="password"
+                        :append-icon="showPassA ? 'visibility' : 'visibility_off'"
+                        :rules="[rules.required, rules.min, rules.max]"
+                        :type="showPassA ? 'text' : 'password'"
+                        label="Password"
+                        :counter="32"
+                        @click:append="showPassA = !showPassA"
+                ></v-text-field>
 
-                    <v-divider/>
+                <v-divider/>
 
-                    <v-text-field
-                            color="purple darken-2"
-                            class="mb-4 mt-4 px-5"
-                            v-model="passwordVer"
-                            :append-icon="showPassB ? 'visibility' : 'visibility_off'"
-                            :rules="passwordConfirmation"
-                            :type="showPassB ? 'text' : 'password'"
-                            label="Password Confirmation"
-                            :counter="32"
-                            @click:append="showPassB = !showPassB"
-                    ></v-text-field>
+                <v-text-field
+                        color="purple darken-2"
+                        class="mb-4 mt-4 px-5"
+                        v-model="passwordVer"
+                        :append-icon="showPassB ? 'visibility' : 'visibility_off'"
+                        :rules="passwordConfirmation"
+                        :type="showPassB ? 'text' : 'password'"
+                        label="Password Confirmation"
+                        :counter="32"
+                        @click:append="showPassB = !showPassB"
+                ></v-text-field>
 
-                    <div class="pb-5 pt-3">
-                        <v-btn :disabled="!valid"
-                               color="purple--text"
-                               @click="register">
-                            Register
-                        </v-btn>
+                <div class="pb-5 pt-3" style="text-align: center">
+                    <v-btn :disabled="!valid"
+                           color="purple--text"
+                           @click="register">
+                        Register
+                    </v-btn>
 
-                        <v-btn color="red--text"
-                               @click="formReset">
-                            Clear
-                        </v-btn>
-                    </div>
-                </form>
+                    <v-btn color="red--text"
+                           @click="formReset">
+                        Clear
+                    </v-btn>
+                </div>
             </v-form>
-            <v-alert :value="alert.value"
-                     :type="alert.type"
-                     transition="scale-transition">
-                {{ this.alert.msg }}
-            </v-alert>
-        </v-flex>
+        </Panel>
 
-    </div>
+        <v-alert :value="alert.value"
+                 :type="alert.type"
+                 transition="scale-transition">
+            {{ alert.msg || "No message defined." }}
+        </v-alert>
+    </v-flex>
 </template>
 
 <script>
+    import Panel from "./helpers/Panel";
     import AuthService from "../services/AuthService";
     export default {
         name: 'register',
+        components: {Panel},
         data() {
             return {
                 valid: false,
@@ -164,10 +159,4 @@
 </script>
 
 <style scoped>
-    #register {
-        margin-top: 7%;
-    }
-    form {
-        text-align: center;
-    }
 </style>
