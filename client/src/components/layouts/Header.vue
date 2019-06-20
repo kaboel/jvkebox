@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="header">
         <v-toolbar fixed color="purple darken-4">
             <v-toolbar-title>
                 <a class="purple--text text--lighten-5" href="/">
@@ -84,10 +84,10 @@
         methods: {
             logout() {
                 const store = this.$store;
-                const data = {token: null, user: null};
-                store.dispatch('Login', data)
+                store.dispatch('Logout')
                     .then(() => {
                         this.dialog = false;
+                        this.$router.push('/');
                         this.snackbar = {
                             display: true,
                             text: 'You are now logged out.'
