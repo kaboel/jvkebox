@@ -1,58 +1,53 @@
 <template>
-    <div id="login">
-        <v-flex md4 offset-md4>
-            <v-form class="white elevation-2" ref="form" v-model="valid">
-                <v-toolbar flat dense class="deep-purple" dark>
-                    <v-toolbar-title style="margin: 0 auto">
+    <v-flex md4 offset-md4>
+
+        <Panel title="Login">
+            <v-form class="pt-3" ref="form" v-model="valid">
+                <v-text-field
+                        color="purple darken-2"
+                        class="px-4"
+                        type="email"
+                        v-model="email"
+                        :rules='[rules.required, rules.email]'
+                        label="Email Address"
+                ></v-text-field>
+
+                <v-text-field
+                        color="purple darken-2"
+                        class="mb-2 px-4"
+                        v-model="password"
+                        :append-icon="showPass ? 'visibility' : 'visibility_off'"
+                        :rules="[rules.required, rules.min, rules.max]"
+                        :type="showPass ? 'text' : 'password'"
+                        label="Password"
+                        :counter="32"
+                        @click:append="showPass = !showPass"
+                ></v-text-field>
+
+                <div class="pb-3 pt-2" style="text-align: center">
+                    <v-btn :disabled="!valid"
+                           color="purple--text"
+                           @click="login">
                         Login
-                    </v-toolbar-title>
-                </v-toolbar>
-
-                <form class="pt-3">
-                    <v-text-field
-                            color="purple darken-2"
-                            class="px-4"
-                            type="email"
-                            v-model="email"
-                            :rules='[rules.required, rules.email]'
-                            label="Email Address"
-                    ></v-text-field>
-
-                    <v-text-field
-                            color="purple darken-2"
-                            class="mb-2 px-4"
-                            v-model="password"
-                            :append-icon="showPass ? 'visibility' : 'visibility_off'"
-                            :rules="[rules.required, rules.min, rules.max]"
-                            :type="showPass ? 'text' : 'password'"
-                            label="Password"
-                            :counter="32"
-                            @click:append="showPass = !showPass"
-                    ></v-text-field>
-
-                    <div class="pb-4 pt-2">
-                        <v-btn :disabled="!valid"
-                               color="purple--text"
-                               @click="login">
-                            Login
-                        </v-btn>
-                    </div>
-                </form>
+                    </v-btn>
+                </div>
             </v-form>
-            <v-alert :value="alert.value"
-                     :type="alert.type"
-                     transition="scale-transition">
-                {{ this.alert.msg }}
-            </v-alert>
-        </v-flex>
+        </Panel>
 
-    </div>
+        <v-alert :value="alert.value"
+                 :type="alert.type"
+                 transition="scale-transition">
+            {{ this.alert.msg }}
+        </v-alert>
+    </v-flex>
 </template>
 
 <script>
     import AuthService from "../services/AuthService";
+    import Panel from "./helpers/Panel";
     export default {
-        name: 'register',
+        name: 'login',
+        components: {Panel},
         data() {
             return {
                 valid: false,
@@ -101,8 +96,7 @@
 
                         store.dispatch('Login', response.data)
                             .then(() => {
-                                this.alertOpen('success', `Welcome ${store.getters.getUser.name}.`);
-                                this.formReset();
+                                this.$router.push('/songs');
                             }).catch(err => {
                                 this.alertOpen('error', err.response.data.error);
                                 this.formReset();
@@ -118,10 +112,4 @@
 </script>
 
 <style scoped>
-    #login {
-        margin-top: 7%;
-    }
-    form {
-        text-align: center;
-    }
 </style>
