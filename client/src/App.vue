@@ -2,11 +2,13 @@
     <div id="app">
         <v-app>
             <Header />
+
             <v-content>
-                <v-container fluid>
+                <v-container fluid id="content">
                     <router-view/>
                 </v-container>
             </v-content>
+
             <Footer />
         </v-app>
     </div>
@@ -27,8 +29,11 @@
     * {
         font-family: 'Saira Semi Condensed', sans-serif;
     }
-
     a {
         text-decoration: none !important;
     }
+    #content {
+        margin-top: 5rem;
+    }
+
 </style>
