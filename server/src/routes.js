@@ -1,14 +1,15 @@
 const AuthController = require('./controllers/AuthController');
-const AuthValidator = require('./controllers/AuthValidator');
+const SongsController = require('./controllers/SongsController');
+
+const AuthValidator = require('./middleware/AuthValidator');
 
 module.exports = (App) => {
     App.post('/register',
         AuthValidator.register,
         AuthController.register
     );
+    App.post('/login', AuthController.login);
 
-    App.post('/login',
-        // AuthValidator.register,
-        AuthController.login
-    );
-}
+    App.get('/songs', SongsController.load);
+    App.post('/songs', SongsController.create)
+};
