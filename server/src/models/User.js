@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-async function encrypt(user, options) {
+async function encrypt(user) {
     const SALT_ROUNDS = 10;
 
     return await bcrypt
@@ -16,7 +16,7 @@ async function encrypt(user, options) {
 }
 
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('User', {
+    return sequelize.define('User', {
         name: {
             type: DataTypes.STRING
         },
@@ -31,8 +31,6 @@ module.exports = (sequelize, DataTypes) => {
             beforeUpdate: encrypt,
         }
     });
-
-    return User;
 };
 
 
