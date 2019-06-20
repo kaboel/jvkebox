@@ -64,7 +64,6 @@
                 Ok
             </v-btn>
         </v-snackbar>
-
     </div>
 </template>
 

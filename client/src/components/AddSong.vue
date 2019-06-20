@@ -1,6 +1,6 @@
 <template>
     <div id="addSong">
-        <v-form ref="form" v-model="song.valid">
+        <v-form ref="form" v-model="valid">
             <v-layout>
                 <v-flex md4>
                     <Panel title="Song's Metadata" class="pt-4 pr-2 pl-4 pb-2">
@@ -43,39 +43,49 @@
                                     color="purple darken-2"
                                     class="px-4 pt-4"
                                     label="Song Tab"
-                                    :rules="[rules.required]"
                         ></v-textarea>
                         <v-textarea v-model="song.lyrics"
                                     color="purple darken-2"
                                     class="px-4 pt-3 pb-4"
                                     label="Song Lyrics"
-                                    :rules="[rules.required]"
                         ></v-textarea>
                     </Panel>
                 </v-flex>
             </v-layout>
         </v-form>
         <div class="buttons">
-            <v-btn fab dark outline small color="red darken-4" @click="resetForm">
+            <v-btn fab dark outline small color="red darken-4" @click="resetForm" title="Reset">
                 <v-icon dark>undo</v-icon>
             </v-btn>
-            <v-btn fab dark color="purple darken-4" @click="addSong">
+            <v-btn fab dark color="purple darken-4" @click="addSong" v-show="valid">
                 <v-icon dark>add</v-icon>
             </v-btn>
         </div>
+
+        <v-snackbar v-model="snackbar.display"
+                    :timeout="snackbar.timeout"
+                    bottom right>
+            {{ snackbar.text }}
+            <v-btn class="purple--text text--lighten-4"
+                   @click="snackbar.display = false"
+                   flat>
+                Ok
+            </v-btn>
+        </v-snackbar>
     </div>
 </template>
 
 <script>
     import Panel from "./helpers/Panel";
+    import SongsService from "../services/SongsService";
 
     export default {
         name: 'addSong',
         components: {Panel},
         data() {
             return {
+                valid: false,
                 song: {
-                    valid: false,
                     title: null,
                     artist: null,
                     genre: null,
@@ -88,12 +98,31 @@
                 rules: {
                     required: val => !!val || 'This field is required.',
                 },
+                snackbar: {
+                    display: false,
+                    timeout: 5000,
+                    text: null
+                }
             }
         },
         methods: {
             resetForm() {
                 this.$refs.form.reset();
                 this.$refs.form.resetValidation();
+            },
+            async addSong() {
+                try {
+                    await SongsService.addSong(this.song);
+                    this.snackbar = {
+                        display: true,
+                        text: `New song '${this.song.title}' by ${this.song.artist} added.`
+                    }
+                } catch (err) {
+                    this.snackbar = {
+                        display: true,
+                        text: `Failed to add new song - ${err.response.data.error}`
+                    }
+                }
             }
         }
     }
