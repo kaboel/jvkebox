@@ -25,11 +25,19 @@ export default new Vuex.Store({
             state.token = data.token;
             state.user = data.user;
             state.isLoggedIn = state.token !== null;
+        },
+        Logout(state) {
+            state.token = null;
+            state.user = null;
+            state.isLoggedIn = false;
         }
     },
     actions: {
         Login({commit}, data) {
             commit('Login', data);
+        },
+        Logout({commit}) {
+            commit('Logout');
         }
     }
 })
