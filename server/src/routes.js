@@ -10,6 +10,6 @@ module.exports = (App) => {
     );
     App.post('/login', AuthController.login);
 
-    App.get('/songs', SongsController.load);
-    App.post('/songs', SongsController.create)
+    App.get('/songs', SongsController.index);
+    App.post('/songs', SongsController.create);
 };

@@ -1,7 +1,7 @@
 const { Song } = require('../models');
 
 module.exports = {
-    async load(req, res) {
+    async index(req, res) {
         await Song.findAll({
             limit: 10
         }).then(songs => {
