@@ -6,7 +6,7 @@
                     <Panel title="Song's Metadata" class="pt-4 pr-2 pl-4 pb-2">
                         <v-text-field v-model="song.title"
                                       color="purple darken-2"
-                                      class="px-4 pt-4"
+                                      class="px-4 pt-3"
                                       label="Title"
                                       :rules="[rules.required]"
                         ></v-text-field>
@@ -113,10 +113,7 @@
             async addSong() {
                 try {
                     await SongsService.addSong(this.song);
-                    this.snackbar = {
-                        display: true,
-                        text: `New song '${this.song.title}' by ${this.song.artist} added.`
-                    }
+                    this.$router.push('/songs');
                 } catch (err) {
                     this.snackbar = {
                         display: true,
@@ -133,6 +130,6 @@
         display: inherit !important;
     }
     .buttons {
-        text-align: right;
+        text-align: center;
     }
 </style>

@@ -35,5 +35,7 @@
     #content {
         margin-top: 5rem;
     }
-
+    .material-icons {
+        display: inherit !important;
+    }
 </style>
