@@ -27,7 +27,12 @@
                                 <p>By: <b>{{ song.artist }}</b></p>
                             </div>
                             <div class="actions">
-                                <v-btn small fab class="red--cust"><v-icon class="white--text">play_arrow</v-icon></v-btn>
+                                <v-btn small fab class="red--cust" @click="play(song.id)">
+                                    <v-icon class="white--text">play_arrow</v-icon>
+                                </v-btn>
+                                <v-btn small :to="{name: 'viewSong', params: {id: song.id}}">
+                                    <v-icon>more_horiz</v-icon>
+                                </v-btn>
                             </div>
                         </v-flex>
                     </v-layout>
@@ -40,6 +45,34 @@
                 {{ this.alert.msg }}
             </v-alert>
         </v-flex>
+
+        <v-dialog v-model="dialog.value"
+                  width="768">
+            <v-card>
+                <v-card-title class="title grey lighten-2">
+                    {{ dialog.title }}
+                </v-card-title>
+
+                <v-card-media class="px-4 py-3">
+                    <iframe width="100%" height="405" v-bind:src="dialog.ytId" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    </iframe>
+                </v-card-media>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                            color="red"
+                            flat
+                            @click="dialog = false"
+                    >
+                        Close
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
     </div>
 </template>
 
@@ -56,6 +89,13 @@
                     value: false,
                     type: null,
                     msg: null
+                },
+                dialog: {
+                    value: false,
+                    title: null,
+                    artist: null,
+                    album: null,
+                    ytId: null
                 }
             }
         },
@@ -70,6 +110,15 @@
                     msg: msg
                 };
             },
+            dialogOpen(song) {
+                this.dialog = {
+                    value: true,
+                    title: song.title,
+                    artist: song.artist,
+                    album: song.album,
+                    ytId: `https://www.youtube.com/embed/${song.youtubeId}`
+                }
+            },
             async loadSongs() {
                 await SongsService.loadSongs()
                     .then(songs => {
@@ -79,8 +128,15 @@
                         this.alertOpen('error', err.response.data.error);
                     })
             },
-            play(id) {
-
+            async play(id) {
+                await SongsService.showSong(id)
+                    .then(song => {
+                        this.dialogOpen(song.data);
+                        // alert(song.data.youtubeId);
+                    })
+                    .catch(err => {
+                        this.alertOpen('error', err.response.data.error);
+                    });
             }
         }
     }
