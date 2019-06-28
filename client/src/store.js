@@ -8,6 +8,7 @@ export default new Vuex.Store({
         token: null,
         user: null,
         isLoggedIn: false,
+        song: null
     },
     getters: {
         getStatus: state => {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         getUser: state => {
             return state.user;
+        },
+        getSong: state => {
+            return state.song
         }
     },
     mutations: {
@@ -30,6 +34,9 @@ export default new Vuex.Store({
             state.token = null;
             state.user = null;
             state.isLoggedIn = false;
+        },
+        setSong(state, song) {
+            state.song = song
         }
     },
     actions: {
@@ -38,6 +45,9 @@ export default new Vuex.Store({
         },
         Logout({commit}) {
             commit('Logout');
+        },
+        setSong({commit}, song) {
+            commit('setSong', song);
         }
     }
 })
