@@ -45,6 +45,14 @@ export default new Router({
             meta: {
                 title: 'Jvkebox | Add new song.'
             }
+        },
+        {
+            path: '/song/:id',
+            name: 'viewSong',
+            component: () => import('./components/ViewSong'),
+            meta: {
+
+            }
         }
     ]
 })
