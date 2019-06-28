@@ -12,4 +12,5 @@ module.exports = (App) => {
 
     App.get('/songs', SongsController.index);
     App.post('/songs', SongsController.create);
+    App.get('/songs/:id', SongsController.find);
 };
